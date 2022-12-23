@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "prone-key-mod",
+  "version": "${version}",
+  "name": "Prone Key Mod",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/prone-key-mod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.pronekey.pronekeymod.client.ProneKeyModClient"
+    ],
+    "main": [
+      "com.pronekey.pronekeymod.ProneKeyMod"
+    ]
+  },
+  "mixins": [
+    "prone-key-mod.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.12",
+    "fabric": "*",
+    "minecraft": "1.19.3"
+  }
+}
