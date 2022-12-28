@@ -14,7 +14,7 @@ import org.lwjgl.glfw.GLFW;
 public class ProneKeyModClient implements ClientModInitializer {
 
     //Defines a keybind named "prone" to the x key
-    public static final KeyBinding prone = new KeyBinding("key.prone", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "key.category.test");
+    public static final KeyBinding prone = new KeyBinding("key.prone", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, "key.category.test");
 
     public static boolean isProneKeyPressed = false;
 

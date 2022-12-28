@@ -13,6 +13,7 @@ public class PlayerEntityMixin {
     public void isSwimming(CallbackInfoReturnable<Boolean> cir) {
         if(ProneKeyModClient.isProneKeyPressed){
             cir.setReturnValue(true);
+            //((PlayerEntity)(Object)this)
         }
     }
 }
