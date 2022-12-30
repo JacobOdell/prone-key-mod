@@ -1,6 +1,6 @@
 package com.pronekey.pronekeymod;
 
-import com.pronekey.pronekeymod.networking.ModMessages;
+import com.pronekey.pronekeymod.networking.PacketHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 
@@ -10,6 +10,6 @@ public class ProneKeyMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModMessages.registerC2SPackets();
+        PacketHandler.registerC2SPackets();
     }
 }
