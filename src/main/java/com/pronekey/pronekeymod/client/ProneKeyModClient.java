@@ -11,13 +11,13 @@ import net.minecraft.client.util.InputUtil;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
 import org.lwjgl.glfw.GLFW;
+import static com.pronekey.pronekeymod.ProneKeyMod.proneState;
 
 @Environment(EnvType.CLIENT)
 public class ProneKeyModClient implements ClientModInitializer {
 
     //Defines a keybind named "prone" to the x key
     public static final KeyBinding prone = new KeyBinding("key.prone", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, "key.category.test");
-    public static ProneState proneState = new ProneState();
 
     @Override
     public void onInitializeClient() {
@@ -48,24 +48,4 @@ public class ProneKeyModClient implements ClientModInitializer {
         PacketHandler.registerS2CPackets();
     }
 
-    //Object for keeping track of when the state of the prone key is changed
-    //Ik stinky location for it but was just making sure it would work.
-    public static class ProneState{
-        boolean currentState = false;
-        int debugId = 0;
-
-        boolean checkForStateChange(boolean newState){
-            if (newState != currentState){
-                currentState = newState;
-                System.out.println("Key State Changed: " + debugId);
-                debugId++;
-                return true;
-            }
-            return false;
-        }
-
-        public boolean getState() {
-            return currentState;
-        };
-    }
 }
