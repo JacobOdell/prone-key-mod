@@ -12,6 +12,7 @@ public class PlayerEntityMixin {
     @Inject(method = "isSwimming", at = @At("HEAD"), cancellable = true)
     public void isSwimming(CallbackInfoReturnable<Boolean> cir) {
         if(ProneKeyModClient.isProneKeyPressed){
+            System.out.print(this);
             cir.setReturnValue(true);
             //((PlayerEntity)(Object)this)
         }

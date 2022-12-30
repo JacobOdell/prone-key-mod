@@ -25,6 +25,8 @@ public class ProneKeyModClient implements ClientModInitializer {
     //Defines a keybind named "prone" to the x key
     public static final KeyBinding prone = new KeyBinding("key.prone", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, "key.category.test");
 
+    public static boolean isProneKeyPressed = false;
+
     @Override
     public void onInitializeClient() {
         //Registers the prone keybind
@@ -35,8 +37,9 @@ public class ProneKeyModClient implements ClientModInitializer {
             if(!prone.isPressed() || client.player == null)
                 return;
 
-            //client.player.setPose(EntityPose.SWIMMING);
+            client.player.setPose(EntityPose.SWIMMING);
             ClientPlayNetworking.send(ModMessages.PRONE_ID, PacketByteBufs.create());
+            isProneKeyPressed = prone.isPressed();
 
             //tell the server im crouching
             //
