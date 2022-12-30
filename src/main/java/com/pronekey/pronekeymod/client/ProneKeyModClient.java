@@ -10,6 +10,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.util.InputUtil;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
+import net.minecraft.network.PacketByteBuf;
 import org.lwjgl.glfw.GLFW;
 import static com.pronekey.pronekeymod.ProneKeyMod.proneState;
 
@@ -40,8 +41,13 @@ public class ProneKeyModClient implements ClientModInitializer {
             //but that doesn't seem to be the case.
 
             //Packet is only sent when the state of the prone key is changed. This appears to work.
-            if (proneState.checkForStateChange(prone.isPressed()) && proneState.getState()){
-                ClientPlayNetworking.send(PacketHandler.PRONE_ID, PacketByteBufs.create());
+            if (proneState.checkForStateChange(prone.isPressed())){
+
+                //send a packet representing change in state
+                PacketByteBuf pbb = PacketByteBufs.create();
+                pbb.writeBoolean(prone.isPressed());
+
+                ClientPlayNetworking.send(PacketHandler.PRONE_ID, pbb);
                 System.out.println("Prone Packet Sent");
             }
         });

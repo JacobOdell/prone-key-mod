@@ -4,10 +4,15 @@ import com.pronekey.pronekeymod.networking.PacketHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class ProneKeyMod implements ModInitializer {
     public static final String MODID = "prone-key-mod";
     public static Identifier identifier = new Identifier(MODID);
     public static ProneState proneState = new ProneState();
+    public static Map<UUID, Boolean> playerProneStates = new HashMap<>();
 
     @Override
     public void onInitialize() {

@@ -1,10 +1,8 @@
 package com.pronekey.pronekeymod.mixin;
 
-import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import com.pronekey.pronekeymod.client.ProneKeyModClient;
 import net.minecraft.entity.player.PlayerEntity;
-import static com.pronekey.pronekeymod.ProneKeyMod.proneState;
+import static com.pronekey.pronekeymod.ProneKeyMod.playerProneStates;
 
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,8 +14,14 @@ import org.spongepowered.asm.mixin.Mixin;
 public class PlayerEntityMixin {
     @Inject(method = "isSwimming", at = @At("HEAD"), cancellable = true)
     public void isSwimming(CallbackInfoReturnable<Boolean> cir) {
-        if (proneState.getState()){
+        PlayerEntity This = (PlayerEntity)(Object)this;
+
+        if (playerProneStates.get(This.getUuid()) != null && playerProneStates.get(This.getUuid())){
             cir.setReturnValue(true);
         }
+
+//        if (proneState.getState()){
+//            cir.setReturnValue(true);
+//        }
     }
 }
