@@ -1,30 +1,37 @@
 package com.pronekey.pronekeymod.client;
 
+import com.ibm.icu.impl.StaticUnicodeSets;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import com.pronekey.pronekeymod.networking.PacketHandler;
 import net.minecraft.client.option.KeyBinding;
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.search.SearchManager;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.client.util.InputUtil;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
-import net.minecraft.network.PacketByteBuf;
+
 import org.lwjgl.glfw.GLFW;
+
+import com.pronekey.pronekeymod.networking.PacketHandler;
+
+import java.security.Key;
+
 
 @Environment(EnvType.CLIENT)
 public class ProneKeyModClient implements ClientModInitializer {
 
-    //Defines a keybind named "prone" to the x key
-    public static final KeyBinding prone = new KeyBinding("key.prone", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, "key.category.test");
-    public static ClientProneState clientProneState = new ClientProneState();
+    public static final KeyBinding prone = new KeyBinding("Prone Key", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "Prone Key Mod");
+    public static final KeyBinding proneToggle = new KeyBinding("Toggle Prone Key", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, "Prone Key Mod");
+
+    static boolean isProne = false;
 
     @Override
     public void onInitializeClient() {
-        //Registers the prone keybind
+        KeyBindingHelper.registerKeyBinding(proneToggle);
         KeyBindingHelper.registerKeyBinding(prone);
-        //PacketHandler.registerS2CPackets();
 
         //Registers a tick event listener to set the pose to swimming if the prone keybind is held
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
@@ -32,29 +39,37 @@ public class ProneKeyModClient implements ClientModInitializer {
                 return;
 
             //Check if there is a change in the prone state and notify server if so
-            if (clientProneState.checkForStateChange(prone.isPressed())){
+            if (this.checkForStateChange()) {
                 PacketByteBuf pbb = PacketByteBufs.create();
-                pbb.writeBoolean(clientProneState.isProne);
+                pbb.writeBoolean(getState());
                 ClientPlayNetworking.send(PacketHandler.PRONE_ID, pbb);
             }
         });
     }
 
-    //Object for keeping track of when the state of the prone key is changed
-    //TODO: Make this not stupid
-    public static class ClientProneState {
-        boolean isProne = false;
+    public boolean checkForStateChange() {
+        boolean newState;
 
-        public boolean checkForStateChange(boolean newState) {
-            if (newState != isProne){
-                isProne = newState;
-                return true;
-            }
-            return false;
+        newState = prone.isPressed();
+
+        System.out.println(prone.isPressed() + " " + proneToggle.isPressed());
+
+        if (newState != isProne) {
+            isProne = newState;
+            return true;
         }
 
-        public boolean getState() {
-            return isProne;
+        newState = proneToggle.isPressed();
+
+        if (newState) {
+            isProne = !isProne;
+            System.out.println("Toggled" + isProne);
+            return true;
         }
+        return false;
+    }
+
+    public static boolean getState() {
+        return isProne;
     }
 }
