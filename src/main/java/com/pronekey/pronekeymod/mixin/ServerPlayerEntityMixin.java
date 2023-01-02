@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.Mixin;
 
-import static com.pronekey.pronekeymod.ProneKeyMod.playersToIsProne;
+import static com.pronekey.pronekeymod.server.ProneKeyModServer.playersToIsProne;
 
 //((PlayerEntity)(Object)this)
 

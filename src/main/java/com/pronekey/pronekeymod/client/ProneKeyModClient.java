@@ -31,7 +31,7 @@ public class ProneKeyModClient implements ClientModInitializer {
             if (client.player == null)
                 return;
 
-            //Check if there is a change in the prone state against the pressing
+            //Check if there is a change in the prone state and notify server if so
             if (clientProneState.checkForStateChange(prone.isPressed())){
                 PacketByteBuf pbb = PacketByteBufs.create();
                 pbb.writeBoolean(clientProneState.isProne);
