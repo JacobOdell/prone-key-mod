@@ -12,39 +12,48 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
 import net.minecraft.network.PacketByteBuf;
 import org.lwjgl.glfw.GLFW;
-import static com.pronekey.pronekeymod.ProneKeyMod.proneState;
 
 @Environment(EnvType.CLIENT)
 public class ProneKeyModClient implements ClientModInitializer {
 
     //Defines a keybind named "prone" to the x key
     public static final KeyBinding prone = new KeyBinding("key.prone", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, "key.category.test");
+    public static ClientProneState clientProneState = new ClientProneState();
 
     @Override
     public void onInitializeClient() {
         //Registers the prone keybind
         KeyBindingHelper.registerKeyBinding(prone);
+        PacketHandler.registerS2CPackets();
 
         //Registers a tick event listener to set the pose to swimming if the prone keybind is held
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
+            if (client.player == null)
+                return;
 
-           if (client.player == null){
-               return;
-           }
-
-            if (proneState.checkForStateChange(prone.isPressed())){
-
-                //send a packet representing change in state
+            //Check if there is a change in the prone state against the pressing
+            if (clientProneState.checkForStateChange(prone.isPressed())){
                 PacketByteBuf pbb = PacketByteBufs.create();
-
-                //Changed back to getState bc technically the is prone key could be tapped an not be pressed byu the time the packet is made and sent
-                //pbb.writeBoolean(proneState.getState());
-
+                pbb.writeBoolean(clientProneState.isProne);
                 ClientPlayNetworking.send(PacketHandler.PRONE_ID, pbb);
-                //System.out.println("Prone Packet Sent containing: " + pbb.readBoolean());
             }
         });
-        PacketHandler.registerS2CPackets();
     }
 
+    //Object for keeping track of when the state of the prone key is changed
+    public static class ClientProneState {
+        boolean isProne = false;
+
+        public boolean checkForStateChange(boolean newState){
+            if (newState != isProne){
+                isProne = newState;
+                return true;
+            }
+            return false;
+        }
+
+        public boolean getState() {
+            return isProne;
+        }
+    }
 }
