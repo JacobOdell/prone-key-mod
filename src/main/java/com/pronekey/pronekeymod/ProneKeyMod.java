@@ -1,6 +1,8 @@
 package com.pronekey.pronekeymod;
 
 import com.pronekey.pronekeymod.networking.PacketHandler;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 
@@ -20,7 +22,6 @@ public class ProneKeyMod implements ModInitializer {
     }
 
     //Object for keeping track of when the state of the prone key is changed
-    //Ik stinky location for it but was just making sure it would work.
     public static class ProneState{
         boolean currentState = false;
         int debugId = 0;

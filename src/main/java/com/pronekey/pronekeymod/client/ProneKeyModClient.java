@@ -25,12 +25,10 @@ public class ProneKeyModClient implements ClientModInitializer {
         //Registers the prone keybind
         KeyBindingHelper.registerKeyBinding(prone);
 
-
         //Registers a tick event listener to set the pose to swimming if the prone keybind is held
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
 
            if (client.player == null){
-               //System.out.println("Client was null returning!!!");
                return;
            }
 

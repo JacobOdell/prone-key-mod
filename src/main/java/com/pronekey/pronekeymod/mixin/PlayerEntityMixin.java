@@ -17,13 +17,11 @@ public class PlayerEntityMixin {
     public void isSwimming(CallbackInfoReturnable<Boolean> cir) {
         PlayerEntity This = (PlayerEntity)(Object)this;
 
+        System.out.println(playerProneStatesMap);
 
-        System.out.println(playerProneStatesMap.get(This.getUuid()));
-
-        if (playerProneStatesMap.get(This.getUuid()) == null){
-            if (proneState.getState()){
+        if (This.world.isClient()){
+            if (proneState.getState())
                 cir.setReturnValue(true);
-            }
             return;
         }
 
