@@ -10,9 +10,9 @@ import java.util.UUID;
 
 public class ProneKeyMod implements ModInitializer {
     public static final String MODID = "prone-key-mod";
-    public static Identifier identifier = new Identifier(MODID);
+    //public static Identifier identifier = new Identifier(MODID);
     public static ProneState proneState = new ProneState();
-    public static Map<UUID, Boolean> playerProneStates = new HashMap<>();
+    public static Map<UUID, Boolean> playerProneStatesMap = new HashMap<>();
 
     @Override
     public void onInitialize() {
@@ -27,14 +27,13 @@ public class ProneKeyMod implements ModInitializer {
 
          public boolean checkForStateChange(boolean newState){
             if (newState != currentState){
+                System.out.println("Key State Changed from: " + currentState + " to: " + newState + " " + debugId);
                 currentState = newState;
-                System.out.println("Key State Changed: " + debugId);
                 debugId++;
                 return true;
             }
             return false;
         }
-
         public boolean getState() {
             return currentState;
         }

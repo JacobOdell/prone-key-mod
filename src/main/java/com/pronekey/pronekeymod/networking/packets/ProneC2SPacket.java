@@ -8,27 +8,29 @@ import net.minecraft.network.PacketByteBuf;
 
 import java.util.UUID;
 
-import static com.pronekey.pronekeymod.ProneKeyMod.playerProneStates;
+import static com.pronekey.pronekeymod.ProneKeyMod.playerProneStatesMap;
 
 public class ProneC2SPacket {
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         //Everything here only happens on server
         UUID playerId = player.getUuid();
-        boolean toSet;
-        toSet = buf.readBoolean();
-        System.out.println("toSet is!!! : " + toSet);
-        System.out.println("playerProneStates is!!!! : " + playerProneStates.toString());
+        //boolean toSet;
+        //toSet = buf.readBoolean();
+        //System.out.println("toSet is!!! : " + toSet);
+        //System.out.println("playerProneStates is!!!! : " + playerProneStatesMap.toString());
 
-        playerProneStates.put(playerId, toSet);
+        System.out.println("Key State Changed from: " + playerProneStatesMap.get(playerId));
 
-//        boolean noEntry = playerProneStates.get(playerId) == null;
-//        if(noEntry){
-//            playerProneStates.put(playerId, true);
-//        } else {
-//            boolean currentState = playerProneStates.get(playerId);
-//            playerProneStates.put(playerId, !currentState);
-//        }
+        if (playerProneStatesMap.get(playerId) == null || playerProneStatesMap.get(playerId) == false) {
+            playerProneStatesMap.put(playerId, true);
+        } else {
+            playerProneStatesMap.put(playerId, false);
+        }
 
-        player.setSwimming(toSet);
+        System.out.println("To: " + playerProneStatesMap.get(playerId));
+        System.out.println("///////////////////////////////////////////////////");
+
+
+        //player.setSwimming(toSet);
     }
 }

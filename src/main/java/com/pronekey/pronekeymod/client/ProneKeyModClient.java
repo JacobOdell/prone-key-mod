@@ -25,30 +25,25 @@ public class ProneKeyModClient implements ClientModInitializer {
         //Registers the prone keybind
         KeyBindingHelper.registerKeyBinding(prone);
 
+
         //Registers a tick event listener to set the pose to swimming if the prone keybind is held
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
-            //if(!prone.isPressed() || client.player == null)
-            if (client.player == null)
-                return;
 
-            //TODO: Current Issue:
-            //The server does not seem to be retaining the pose after the first packet is set.
-            //As my current understand has the server not having separate logic to check if the player should be swimming
-            //or not I don't really know what's going on but am tired so idk.
-            //Just gotta figure out why the server side pose of the player is being changed after the first packet sets it to swimming.
-            //ServerPlayerEntity (the object used to set the pose when the server gets the packet)
-            //extends PlayerEntity which is where our mixin should be preventing the pose from being updated while ProneState.getState == true
-            //but that doesn't seem to be the case.
+           if (client.player == null){
+               //System.out.println("Client was null returning!!!");
+               return;
+           }
 
-            //Packet is only sent when the state of the prone key is changed. This appears to work.
             if (proneState.checkForStateChange(prone.isPressed())){
 
                 //send a packet representing change in state
                 PacketByteBuf pbb = PacketByteBufs.create();
-                pbb.writeBoolean(prone.isPressed());
+
+                //Changed back to getState bc technically the is prone key could be tapped an not be pressed byu the time the packet is made and sent
+                //pbb.writeBoolean(proneState.getState());
 
                 ClientPlayNetworking.send(PacketHandler.PRONE_ID, pbb);
-                System.out.println("Prone Packet Sent");
+                //System.out.println("Prone Packet Sent containing: " + pbb.readBoolean());
             }
         });
         PacketHandler.registerS2CPackets();
