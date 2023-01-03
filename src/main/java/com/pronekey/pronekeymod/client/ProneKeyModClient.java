@@ -8,9 +8,9 @@ import com.pronekey.pronekeymod.networking.PacketHandler;
 import net.minecraft.client.option.KeyBinding;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.network.PacketByteBuf;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
-import net.minecraft.network.PacketByteBuf;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
@@ -24,7 +24,6 @@ public class ProneKeyModClient implements ClientModInitializer {
     public void onInitializeClient() {
         //Registers the prone keybind
         KeyBindingHelper.registerKeyBinding(prone);
-        PacketHandler.registerS2CPackets();
 
         //Registers a tick event listener to set the pose to swimming if the prone keybind is held
         ClientTickEvents.START_CLIENT_TICK.register(client -> {

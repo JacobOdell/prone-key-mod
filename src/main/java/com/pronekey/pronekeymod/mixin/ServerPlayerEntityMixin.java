@@ -7,18 +7,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.Mixin;
 
-import static com.pronekey.pronekeymod.server.ProneKeyModServer.playersToIsProne;
+import java.util.UUID;
 
-//((PlayerEntity)(Object)this)
+import static com.pronekey.pronekeymod.server.ProneKeyModServer.playersToIsProne;
 
 @Mixin(PlayerEntity.class)
 public class ServerPlayerEntityMixin {
     @Inject(method = "isSwimming", at = @At("HEAD"), cancellable = true)
     public void isSwimming(CallbackInfoReturnable<Boolean> cir) {
-        PlayerEntity This = (PlayerEntity)(Object)this;
+        UUID uuid = ((PlayerEntity)(Object)this).getUuid();
 
-        if (playersToIsProne.get(This.getUuid()) != null && playersToIsProne.get(This.getUuid())){
+        if (playersToIsProne.get(uuid) != null && playersToIsProne.get(uuid))
             cir.setReturnValue(true);
-        }
     }
 }

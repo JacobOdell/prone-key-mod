@@ -1,11 +1,11 @@
 package com.pronekey.pronekeymod.networking.packets;
 
+import static com.pronekey.pronekeymod.server.ProneKeyModServer.playersToIsProne;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.network.PacketByteBuf;
-import static com.pronekey.pronekeymod.server.ProneKeyModServer.playersToIsProne;
 
 public class ProneC2SPacket {
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
