@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.Mixin;
 
+//TODO: Remove ClientProneState class and replace with ProneKeyModClient
 import static com.pronekey.pronekeymod.client.ProneKeyModClient.clientProneState;
 
 //((PlayerEntity)(Object)this)
@@ -15,7 +16,8 @@ import static com.pronekey.pronekeymod.client.ProneKeyModClient.clientProneState
 public class ClientPlayerEntityMixin {
     @Inject(method = "isSwimming", at = @At("HEAD"), cancellable = true)
     public void isSwimming(CallbackInfoReturnable<Boolean> cir) {
-        if (clientProneState.getState())
+        PlayerEntity This = (PlayerEntity)(Object)this;
+        if (clientProneState.getState() && This.getVehicle() == null)
             cir.setReturnValue(true);
     }
 }

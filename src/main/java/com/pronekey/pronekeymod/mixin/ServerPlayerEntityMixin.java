@@ -6,8 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.Mixin;
-
-import static com.pronekey.pronekeymod.server.ProneKeyModServer.playersToIsProne;
+import com.pronekey.pronekeymod.server.ProneKeyModServer;
 
 //((PlayerEntity)(Object)this)
 
@@ -16,9 +15,7 @@ public class ServerPlayerEntityMixin {
     @Inject(method = "isSwimming", at = @At("HEAD"), cancellable = true)
     public void isSwimming(CallbackInfoReturnable<Boolean> cir) {
         PlayerEntity This = (PlayerEntity)(Object)this;
-
-        if (playersToIsProne.get(This.getUuid()) != null && playersToIsProne.get(This.getUuid())){
+        if (ProneKeyModServer.getMap(This.getUuid()) && This.getVehicle() == null)
             cir.setReturnValue(true);
-        }
     }
 }

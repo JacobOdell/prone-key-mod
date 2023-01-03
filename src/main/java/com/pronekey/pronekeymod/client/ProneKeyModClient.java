@@ -24,7 +24,7 @@ public class ProneKeyModClient implements ClientModInitializer {
     public void onInitializeClient() {
         //Registers the prone keybind
         KeyBindingHelper.registerKeyBinding(prone);
-        PacketHandler.registerS2CPackets();
+        //PacketHandler.registerS2CPackets();
 
         //Registers a tick event listener to set the pose to swimming if the prone keybind is held
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
@@ -41,10 +41,11 @@ public class ProneKeyModClient implements ClientModInitializer {
     }
 
     //Object for keeping track of when the state of the prone key is changed
+    //TODO: Make this not stupid
     public static class ClientProneState {
         boolean isProne = false;
 
-        public boolean checkForStateChange(boolean newState){
+        public boolean checkForStateChange(boolean newState) {
             if (newState != isProne){
                 isProne = newState;
                 return true;
