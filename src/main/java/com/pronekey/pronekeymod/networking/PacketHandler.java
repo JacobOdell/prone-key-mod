@@ -13,6 +13,4 @@ public class PacketHandler {
     public static void registerC2SPackets() {
         ServerPlayNetworking.registerGlobalReceiver(PRONE_ID, ProneC2SPacket::receive);
     }
-
-    public static void registerS2CPackets() {}
 }
