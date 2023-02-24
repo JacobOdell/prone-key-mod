@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 import com.pronekey.pronekeymod.server.ProneKeyModServer;
 
-
+// Injects into the server isSwimming function to prevent the server from resetting player prone state
 @Mixin(PlayerEntity.class)
 public class ServerPlayerEntityMixin {
     @Inject(method = "isSwimming", at = @At("HEAD"), cancellable = true)

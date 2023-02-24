@@ -29,12 +29,12 @@ public class ProneKeyModClient implements ClientModInitializer {
         KeyBindingHelper.registerKeyBinding(proneHoldKey);
         KeyBindingHelper.registerKeyBinding(proneToggleKey);
 
-        //Registers a tick event listener to set the pose to swimming if the prone keybind is held
+        //Registers a tick event listener to respond to key presses.
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
             if (client.player == null)
                 return;
 
-            //Check if there is a change in the prone state and notify server if so
+            //Checks if there is a change in the prone state and sends a packet to the server if so.
             if (this.checkForStateChange()) {
                 PacketByteBuf pbb = PacketByteBufs.create();
                 pbb.writeBoolean(getState());
@@ -43,6 +43,7 @@ public class ProneKeyModClient implements ClientModInitializer {
         });
     }
 
+    // Checks if the state of the player needs to be changed when the key is pressed.
     public boolean checkForStateChange() {
         boolean oldState = proneState;
 
@@ -55,6 +56,7 @@ public class ProneKeyModClient implements ClientModInitializer {
         return oldState != proneState;
     }
 
+    // Simple getter for the proneState variable
     public static boolean getState() {
         return proneState;
     }
